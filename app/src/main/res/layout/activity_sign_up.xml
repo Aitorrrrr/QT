@@ -59,8 +59,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:hint="Teléfono"
-        android:inputType="number"
-        android:ems="9"/>
+        android:inputType="number"/>
 
     <EditText
         android:id="@+id/input_password"

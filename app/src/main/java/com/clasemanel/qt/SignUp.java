@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class SignUp extends AppCompatActivity {
@@ -21,6 +23,7 @@ public class SignUp extends AppCompatActivity {
     private EditText tel;
     private EditText pw;
     private RadioGroup gen;
+    private RadioButton h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class SignUp extends AppCompatActivity {
         tel = (EditText) this.findViewById(R.id.input_telefono);
         pw = (EditText) this.findViewById(R.id.input_password);
         gen = (RadioGroup) this.findViewById(R.id.genero);
+        h = (RadioButton) this.findViewById(R.id.hombre);
 
         enviar = (Button) this.findViewById(R.id.enviar);
         enviar.setOnClickListener(new View.OnClickListener()
@@ -45,13 +49,13 @@ public class SignUp extends AppCompatActivity {
                 if (comprobarCampos())
                 {
                     boolean genero;
-                    if (gen.getCheckedRadioButtonId()==1)
+                    if (h.isChecked())
                     {
-                        genero=false;
+                        genero=true;
                     }
                     else
                     {
-                        genero=true;
+                        genero = false;
                     }
 
                     Usuario aux = new Usuario(Integer.parseInt(user.getText().toString()), nom.getText().toString(), apell.getText().toString(), email.getText().toString(), Integer.parseInt(tel.getText().toString()), pw.getText().toString(), genero);
@@ -64,8 +68,6 @@ public class SignUp extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent i = new Intent();
-
                     setResult(RESULT_CANCELED);
                     finish();
                 }
@@ -88,6 +90,7 @@ public class SignUp extends AppCompatActivity {
     {
         if (user.getText().toString()=="" || nom.getText().toString()=="" || apell.getText().toString()=="" || email.getText().toString()=="" || tel.getText().toString()=="" || pw.getText().toString()=="" || gen.getCheckedRadioButtonId()==-1)
         {
+            Log.d("CSS","Campos no válidos");
             return false;
         }
         else

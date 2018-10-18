@@ -3,6 +3,7 @@ package com.clasemanel.qt;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText inputPw;
 
     private static int REQUEST = 1;
+    private static String TAG="CSS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,25 +50,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                boolean correcto=false;
                 for (Usuario aux: users)
                 {
-                    if (aux.getEmail().toString().compareTo(inputUser.getText().toString())==0)
+                    if (aux.getEmail().equals(inputUser.getText().toString()))
                     {
-                        if (aux.getPassword().toString().compareTo(inputPw.getText().toString())==0)
+                        if (aux.getPassword().compareTo(inputPw.getText().toString())==0)
                         {
-                            Intent i = new Intent(getApplicationContext(),fin.class);
-
-                            startActivity(i);
+                            correcto=true;
                         }
                         else
                         {
-                            inputUser.setText("Contraseña no válida");
+                            Log.d(TAG,aux.getPassword()+" "+inputPw.getText().toString());
                         }
                     }
                     else
                     {
-                        inputUser.setText("Usuario no válido");
+                        Log.d(TAG,aux.getEmail()+" "+inputUser.getText().toString());
                     }
+                }
+
+                if (correcto)
+                {
+                    Intent i = new Intent(getApplicationContext(),fin.class);
+
+                    startActivity(i);
                 }
             }
         });
@@ -85,8 +93,17 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK)
             {
                 Usuario aux = (Usuario) data.getExtras().getParcelable("user");
+                Log.d("CSS",aux.getID()+" "+aux.getNombre()+" "+aux.getApellido()+" "+aux.getTelefono()+" "+aux.getEmail()+" "+aux.getPassword());
                 users.add(aux);
             }
+            else
+            {
+                Log.d(TAG,"Resultado no válido");
+            }
+        }
+        else
+        {
+            Log.d(TAG,"Request no válido");
         }
     }
 }
